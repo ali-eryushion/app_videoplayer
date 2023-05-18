@@ -13,9 +13,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List info = [];
-  _initData() {
-    DefaultAssetBundle.of(context).loadString("json/info.json").then((value) {
-      info = json.decode(value);
+  _initData() async {
+    await DefaultAssetBundle.of(context)
+        .loadString("json/info.json")
+        .then((value) {
+      setState(() {
+        info = json.decode(value);
+      });
     });
   }
 
@@ -328,7 +332,7 @@ class _HomePageState extends State<HomePage> {
                   context: context,
                   child: ListView.builder(
                     //* this is to because we want two items in each row.
-                    itemCount: (info.length.toDouble() / 2).toInt(),
+                    itemCount: info.length.toDouble() ~/ 2,
                     itemBuilder: (context, index) {
                       //* this is to get index of both elements for each row
                       int firstElementIndex = 2 * index; //* 0, 2,
